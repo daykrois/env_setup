@@ -13,8 +13,8 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-// 定义缓存的有效期（例如 1 天）
-const cacheDuration = 24 * time.Hour
+// 定义缓存的有效期（例如 30 天）
+const cacheDuration = 30 * 24 * time.Hour
 
 // 缓存文件路径
 const cacheFile = "jdk_links_cache.json"
@@ -77,7 +77,8 @@ func fetchJDKLinks(url string, filterKeyword string) (map[string]string, error) 
 			if !exists {
 				return
 			}
-			if strings.Contains(href, filterKeyword) {
+			fmt.Println(href)
+			if strings.Contains(href, filterKeyword) && !strings.Contains(href, "sha256") {
 				filename := path.Base(href)
 				jdkName := strings.Split(filename, "_")[0] // 提取 JDK 名字
 				links[jdkName] = href
